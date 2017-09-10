@@ -2,49 +2,52 @@ const _ = require('lodash')
 require('chai').should()
 const inherits = require('../index')
 
-describe('dual-inherits', ()=>{
+describe('dual-inherits', () => {
 
-    describe("insert construction parameter", ()=>{
-        it("should call a constructor with an extra parameter", ()=>{
+    describe("insert construction parameter", () => {
+        it("should call a constructor with an extra parameter", () => {
 
             function A(one, two) {
-                if(!one) throw new Error("No first parameter")
-                if(!two) throw new Error("No second parameter")
+                if (!one) throw new Error("No first parameter")
+                if (!two) throw new Error("No second parameter")
             }
 
-            var B = inherits(function(one) {
+            var B = inherits(function (one) {
             }, A)
 
-            !(()=>new B()).should.throw("No first parameter")
+            !(() => new B()).should.throw("No first parameter")
             !(() => new B(1)).should.throw("No second parameter")
 
-            var C = inherits(function(one) {
+            var C = inherits(function (one) {
 
-            }, A, (Super, instance, param1)=>{
+            }, A, (Super, instance, param1) => {
                 Super.call(instance, param1, "C")
             })
 
             var d = new C(1)
 
-            !(()=> new C(1)).should.not.throw("No second parameter")
+            !(() => new C(1)).should.not.throw("No second parameter")
             d.should.be.instanceof(A);
 
 
         })
     })
 
-    describe("inherits from",  ()=>{
-        it("should have the prototype chain from two separate classes", ()=>{
+    describe("inherits from", () => {
+        it("should have the prototype chain from two separate classes", () => {
 
             function A() {
 
             }
-            A.prototype.aFunction = function() {}
+
+            A.prototype.aFunction = function () {
+            }
 
             function B() {
 
             }
-            B.prototype.bFunction = function() {
+
+            B.prototype.bFunction = function () {
 
             }
 
@@ -61,11 +64,13 @@ describe('dual-inherits', ()=>{
             e.length.should.be.a('number')
 
         })
-        it("should be able to inherit properties from both", ()=>{
+        it("should be able to inherit properties from both", () => {
 
-            function A() {}
+            function A() {
+            }
+
             Object.defineProperty(A.prototype, "readOnly", {
-                get: ()=>"a",
+                get: () => "a",
                 configurable: false,
                 enumerable: false
             })
@@ -74,7 +79,7 @@ describe('dual-inherits', ()=>{
             }
 
             Object.defineProperty(B.prototype, "anotherProperty", {
-                get: ()=>"b",
+                get: () => "b",
                 configurable: false,
                 enumerable: false
             })
@@ -94,7 +99,7 @@ describe('dual-inherits', ()=>{
             e.readOnly.should.equal('a')
 
         })
-        it("should be able to inherit simple values from both", ()=>{
+        it("should be able to inherit simple values from both", () => {
             function A() {
             }
 
@@ -105,9 +110,7 @@ describe('dual-inherits', ()=>{
 
             B.prototype.test2 = "d"
 
-
             var C = inherits(B, Array)
-
             var D = inherits(A, Array)
             var E = inherits(C, D)
 
@@ -115,21 +118,23 @@ describe('dual-inherits', ()=>{
             e.test.should.equal("c")
             e.test2.should.equal("d")
         })
-        it("should have functions from both prototype chains", ()=>{
+        it("should have functions from both prototype chains", () => {
             function A() {
             }
 
-            A.prototype.testFunction = function(a) { return a + 1 }
+            A.prototype.testFunction = function (a) {
+                return a + 1
+            }
 
             function B() {
             }
 
-            B.prototype.anotherTestFunction = function(b) { return b * 10 }
+            B.prototype.anotherTestFunction = function (b) {
+                return b * 10
+            }
 
             var C = inherits(B, Array)
-
             var D = inherits(A, String)
-
             var E = inherits(C, D)
 
             var e = new E()
