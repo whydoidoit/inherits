@@ -1,3 +1,5 @@
+var pc = window.pc || {}
+
 function getPropertyDescriptor(obj, key) {
     if(!obj) return
     let descriptor = Object.getOwnPropertyDescriptor(obj, key)
@@ -40,4 +42,4 @@ function inherits(Self, Super, callback) {
 
 pc.inherits = inherits
 
-export default inherits
+module.exports = inherits
