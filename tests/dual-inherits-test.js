@@ -51,7 +51,7 @@ describe('dual-inherits', () => {
 
             }
 
-            var C = inherits(B, Array)
+            var C = inherits(B, String)
 
             var D = inherits(A, Array)
 
@@ -62,6 +62,14 @@ describe('dual-inherits', () => {
             e.aFunction.should.be.a('function')
             e.bFunction.should.be.a('function')
             e.length.should.be.a('number')
+            e.should.be.instanceof(Array)
+            e.should.be.instanceof(D)
+
+            var F = inherits(function(){}, E)
+            var f = new F()
+            f.should.be.instanceof(E)
+            f.should.be.instanceof(D)
+            f.should.be.instanceof(Array)
 
         })
         it("should be able to inherit properties from both", () => {
