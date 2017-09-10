@@ -4,7 +4,7 @@
   "description": "Javascript inheritence with the ability to inject construction call backs and merge two prototype chains",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/*-test.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/whydoidoit/inherits/issues"
   },
-  "homepage": "https://github.com/whydoidoit/inherits#readme"
+  "homepage": "https://github.com/whydoidoit/inherits#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "lodash": "^4.17.4",
+    "mocha": "^3.5.2"
+  }
 }

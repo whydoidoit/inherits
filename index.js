@@ -1,11 +1,19 @@
-var pc = window.pc || {}
+var pc = pc || {}
 
 function getPropertyDescriptor(obj, key) {
     if(!obj) return
     let descriptor = Object.getOwnPropertyDescriptor(obj, key)
     if(descriptor) return descriptor
-    return getPropertyDescriptor(obj.__proto__, key)
+    return getPropertyDescriptor(Object.getPrototypeOf(obj), key)
+}
 
+function getAllPropertyNames(obj) {
+    var result = Object.getOwnPropertyNames(obj)
+    let proto = Object.getPrototypeOf(obj)
+    if(proto && proto !== Object.prototype) {
+        result = result.concat(getAllPropertyNames(proto))
+    }
+    return result
 }
 
 function inherits(Self, Super, callback) {
@@ -26,15 +34,24 @@ function inherits(Self, Super, callback) {
     var instance = new mid()
     Temp.prototype = Super.prototype;
     Func.prototype = new Temp();
-
-    for(var key in instance) {
-        var descriptor = getPropertyDescriptor(Self.prototype, key)
+    let allValues = []
+    for(var k in instance) {
+        allValues.push(k)
+    }
+    getAllPropertyNames(instance).forEach( key => {
+        if(key === 'constructor' || key.slice(0,2)=='__') return
+        allValues.splice(allValues.indexOf(key),1)
+        var descriptor = getPropertyDescriptor(instance, key)
         if(descriptor) {
             Object.defineProperty(Func.prototype, key, descriptor)
         } else {
             Func.prototype[key] = Self.prototype[key]
         }
-    }
+    })
+
+    allValues.forEach(key=>{
+        Func.prototype[key] = instance[key]
+    })
 
 
     return Func;
