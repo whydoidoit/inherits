@@ -89,7 +89,7 @@ describe('dual-inherits', () => {
 
             var C = inherits(B, Array)
 
-            var D = inherits(A, Array)
+            var D = inherits(A, String)
             var d = new D()
             d.readOnly.should.equal("a")
 
@@ -97,6 +97,7 @@ describe('dual-inherits', () => {
 
             var e = new E()
             e.readOnly.should.equal('a')
+            e.anotherProperty.should.equal('b')
 
         })
         it("should be able to inherit simple values from both", () => {
