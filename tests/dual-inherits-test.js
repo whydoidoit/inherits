@@ -109,8 +109,6 @@ describe('dual-inherits', ()=>{
             var C = inherits(B, Array)
 
             var D = inherits(A, Array)
-            var d = new D()
-
             var E = inherits(C, D)
 
             var e = new E()
@@ -131,7 +129,6 @@ describe('dual-inherits', ()=>{
             var C = inherits(B, Array)
 
             var D = inherits(A, String)
-            var d = new D()
 
             var E = inherits(C, D)
 

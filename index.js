@@ -34,25 +34,13 @@ function inherits(Self, Super, callback) {
     var instance = new mid()
     Temp.prototype = Super.prototype;
     Func.prototype = new Temp();
-    let allValues = []
-    for(var k in instance) {
-        allValues.push(k)
-    }
     getAllPropertyNames(instance).forEach( key => {
         if(key === 'constructor' || key.slice(0,2)=='__') return
-        allValues.splice(allValues.indexOf(key),1)
         var descriptor = getPropertyDescriptor(instance, key)
         if(descriptor) {
             Object.defineProperty(Func.prototype, key, descriptor)
-        } else {
-            Func.prototype[key] = Self.prototype[key]
         }
     })
-
-    allValues.forEach(key=>{
-        Func.prototype[key] = instance[key]
-    })
-
 
     return Func;
 }
