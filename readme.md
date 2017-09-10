@@ -58,6 +58,3 @@ superclass
 >`param1` etc, the parameters used to call the sub class constructor
 
 
-### Requirements
-
-Requires PlayCanvas Engine to be running on the page.  Uses ES6/Babel/PlayCanvas template.
