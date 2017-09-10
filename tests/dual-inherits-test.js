@@ -1,6 +1,4 @@
 const _ = require('lodash')
-const assert = require('chai').assert
-const expect = require('chai').expect
 require('chai').should()
 const inherits = require('../index')
 
@@ -17,8 +15,8 @@ describe('dual-inherits', ()=>{
             var B = inherits(function(one) {
             }, A)
 
-            expect(()=>new B()).to.throw("No first parameter")
-            expect(() => new B(1)).to.throw("No second parameter")
+            !(()=>new B()).should.throw("No first parameter")
+            !(() => new B(1)).should.throw("No second parameter")
 
             var C = inherits(function(one) {
 
@@ -28,8 +26,9 @@ describe('dual-inherits', ()=>{
 
             var d = new C(1)
 
-            expect(()=> new C(1)).to.not.throw("No second parameter")
-            d.should.be.instanceof(A)
+            !(()=> new C(1)).should.not.throw("No second parameter")
+            d.should.be.instanceof(A);
+
 
         })
     })
