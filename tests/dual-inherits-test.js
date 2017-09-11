@@ -62,10 +62,38 @@ describe('dual-inherits', () => {
             e.aFunction.should.be.a('function')
             e.bFunction.should.be.a('function')
             e.length.should.be.a('number')
+
+
+        })
+        it("should return the correct instanceof values from the primary chain", ()=>{
+            function A() {
+
+            }
+
+            A.prototype.aFunction = function () {
+            }
+
+            function B() {
+
+            }
+
+            B.prototype.bFunction = function () {
+
+            }
+
+            var C = inherits(B, String)
+
+            var D = inherits(A, Array)
+
+            var E = inherits(C, D)
+
+            var e = new E()
             e.should.be.instanceof(Array)
             e.should.be.instanceof(D)
 
-            var F = inherits(function(){}, E)
+            var F = inherits(function () {
+            }, E)
+
             var f = new F()
             f.should.be.instanceof(E)
             f.should.be.instanceof(D)
